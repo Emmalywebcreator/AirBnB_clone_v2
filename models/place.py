@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from os import genv
-from models.base_model import BaseModel, Base
+from os import getenv
+from models.base_model import BaseModel, Base 
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
 import models
 from models.review import Review
 from models import storage
+from models.amenity import Amenity
 
 
 link_table = Table(
@@ -33,7 +34,7 @@ class Place(BaseModel, Base):
     amenity_ids = []
 
 reviews = relationship("Review", backref="place", cascade="all, delete_orphan")
-amenities = relationship("Amenities", secondary="place_amenities", viewonly=False)
+amenities = relationship("Amenities", secondary="place_amenity", viewonly=False)
 
 
 if ("HBNB_TYPE_STORAGE") != "db":
@@ -43,3 +44,16 @@ if ("HBNB_TYPE_STORAGE") != "db":
 
         all_reviews = storage.all(Review)
         return [review for review in all_reviews.values() if review.place_id == self.id]
+    
+    @property
+    def amenities(self):
+        """Getter attribute that returns a list of Amenity instances based on amenity_ids"""
+        return [storage.get(Amenity, amenity_id) for amenity_id in self.amenity_ids]
+
+    @amenities.setter
+    def amenities(self, amenity_obj):
+        """Setter attribute that handles appending    .id to amenity_ids (for FileStorage)"""
+        if isinstance(amenity_obj, Amenity):
+            self.amenity_ids.append(amenity_obj.id)
+        else:
+            raise ValueError("amenities attribute must    be an Amenity object")

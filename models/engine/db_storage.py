@@ -48,18 +48,17 @@ class DBStorage():
         """
         ret_dict = {}
 
-        if cls is None:
-            if not cls:
-                for classname in lists_of_objects:
-                    for item in self.__session.query(classname).all():
-                        key = item.__class__.__name__ + "." + item.id
-                        val = item
-                        ret_dict[key] = val
-            else:
-                for item in self.__session.query(eval(cls)).all():
+        if cls is None:             
+            for classname in lists_of_objects:
+                for item in self.__session.query(classname).all():
                     key = item.__class__.__name__ + "." + item.id
                     val = item
                     ret_dict[key] = val
+        else:
+            for item in self.__session.query(eval(cls)).all():
+                key = item.__class__.__name__ + "." + item.id
+                val = item
+                ret_dict[key] = val
 
         return ret_dict
     
@@ -90,7 +89,6 @@ class DBStorage():
             create all tables in the database
         '''
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
