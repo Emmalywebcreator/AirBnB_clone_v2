@@ -1,18 +1,24 @@
 #!/usr/bin/python3
 
-from flask import Flask
+"""Start a Flask application
+"""
 
+from flask import Flask
 
 app = Flask(__name__)
 
 
 @app.route("/", strict_slashes=False)
-def hello_hbnb():
+def hello():
+    """Flask app route
+    """
     return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
-def hbnb():
+def hello_hbnb():
+    """Return HBNB
+    """
     return "HBNB"
 
 
