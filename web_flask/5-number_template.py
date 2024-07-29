@@ -50,9 +50,8 @@ def number_n(n):
 def number_template(n):
     """Flask app route for /number_template/<n> URL
     """
-    return render_template("5-number.html")
+    return render_template("5-number.html", number=n)
 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
-
