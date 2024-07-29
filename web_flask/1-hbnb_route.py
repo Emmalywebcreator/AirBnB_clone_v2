@@ -14,11 +14,12 @@ def hello():
     """
     return "Hello HBNB!"
 
+
 @app.route("/hbnb", strict_slashes=False)
 def hello_hbnb():
     """Return HBNB
     """
-    return "HBNH"
+    return "HBNB"
 
 
 if __name__ == "__main__":
