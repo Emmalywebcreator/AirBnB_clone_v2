@@ -54,9 +54,12 @@ def number_template(n):
 
 
 @app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
-"""Flask app route for /number_odd_or_even/<n> URL"""
+def number_odd_or_even(n): 
+    """
+    Flask app route for /number_odd_or_even/<n> URL
+    """
     even_or_odd = "even" if n % 2 == 0 else "odd"
-    return render_template(6-number_odd_or_even.html, number=n, even_or_odd=even_or_odd)
+    return render_template("6-number_odd_or_even.html", number=n, even_or_odd=even_or_odd)
 
 
 
